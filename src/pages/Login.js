@@ -1,14 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { Form, Button, Card, Alert, Stack } from 'react-bootstrap';
+import React, { useRef } from 'react';
+import { Form, Button, Card, Container } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
+import { Link, useHistory } from 'react-router-dom';
 
-const Login = () => {
+export default function Login() {
 	const emailRef = useRef();
 	const firstnameRef = useRef();
 	const surnameRef = useRef();
-	const [error, setError] = useState('');
-	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 	const { login } = useAuth();
 
@@ -16,19 +14,19 @@ const Login = () => {
 		e.preventDefault();
 		console.log('Login');
 		login(
-			emailRef.current.value,
 			firstnameRef.current.value,
-			surnameRef.current.value
+			surnameRef.current.value,
+			emailRef.current.value
 		);
-		history.push('/');
+		history.push(`/${firstnameRef.current.value}`);
 	}
 
 	return (
-		<div style={{ width: '50vw' }}>
-			<Card className='m-4 text-primary'>
+		<Container className='w-50'>
+			<Card className='m-4 bg-dark text-light w-20'>
 				<Card.Body>
 					<h2 className='text-center mb-4'>Log In</h2>
-					{error && <Alert variant='danger'>{error}</Alert>}
+
 					<Form onSubmit={handleSubmit}>
 						<Form.Group id='first name'>
 							<Form.Label>first name</Form.Label>
@@ -60,7 +58,7 @@ const Login = () => {
 							/>
 						</Form.Group>
 
-						<Button disabled={loading} className='w-100 mt-3' type='submit'>
+						<Button className='w-100 mt-3' type='submit'>
 							Log In
 						</Button>
 					</Form>
@@ -70,12 +68,6 @@ const Login = () => {
           </div> */}
 				</Card.Body>
 			</Card>
-
-			<div className='w-100 text-center mt-2'>
-				Need an account? <Link to='/signup'>Sign Up</Link>
-			</div>
-		</div>
+		</Container>
 	);
-};
-
-export default Login;
+}

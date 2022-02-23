@@ -7,17 +7,26 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-	const [user, setUser] = useState({
-		firstname: 'xx',
-		surname: 'xx',
-		email: 'xx',
-	}); //"xx","xx","xx" soll null sein
+	const testUser = true
+		? {
+				firstname: 'Jesus',
+				surname: 'Christ',
+				email: 'jesus.christ@heaven.com',
+		  }
+		: null;
+	const [user, setUser] = useState(testUser);
 
-	const login = (firstname, surname, email) => {
-		setUser({ firstname, surname, email });
-	};
+	function login(firstname, surname, email) {
+		const user = { firstname, surname, email };
+		setUser(user);
+	}
 
-	const value = { login, user };
+	function signOut() {
+		setUser(null);
+		// history.push(ROUTES.LOGIN);
+	}
+
+	const value = { login, signOut, user };
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
