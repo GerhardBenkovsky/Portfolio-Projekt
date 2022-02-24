@@ -23,7 +23,19 @@ export function MessageProvider({ children }) {
 		setMessages((old) => [...old, newMessage]);
 	}
 
-	const value = { getMessages, sendMessage };
+	function deleteMessage(m) {
+		setMessages(messages.filter((item) => compareMessages(m, item)));
+	}
+
+	function compareMessages(m1, m2) {
+		return !(
+			JSON.stringify(m1.user) === JSON.stringify(m2.user) &&
+			m1.message === m2.message &&
+			JSON.stringify(user) === JSON.stringify(m1.user)
+		);
+	}
+
+	const value = { getMessages, sendMessage, deleteMessage };
 
 	return (
 		<MessageContext.Provider value={value}>{children}</MessageContext.Provider>
