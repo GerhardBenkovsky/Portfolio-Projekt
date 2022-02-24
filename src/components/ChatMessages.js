@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import { FaTrash } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { useMessages } from '../context/MessageContext';
 
@@ -14,8 +15,7 @@ export default function ChatMessages() {
 				const isFromUser = JSON.stringify(user) === JSON.stringify(m.user);
 				return (
 					<ChatMessage
-						p_user={m.user}
-						message={m.message}
+						message={m}
 						key={`${Math.random().toString(36).substring(2)}`}
 						isFromUser={isFromUser}
 					/>
@@ -25,7 +25,9 @@ export default function ChatMessages() {
 	);
 }
 
-function ChatMessage({ p_user, message, isFromUser }) {
+function ChatMessage({ message, isFromUser }) {
+	const { deleteMessage } = useMessages();
+
 	return (
 		<div
 			className={`d-flex justify-content-${
@@ -36,8 +38,13 @@ function ChatMessage({ p_user, message, isFromUser }) {
 					isFromUser ? 'success' : 'dark'
 				} text-light rounded p-2 `}
 				style={{ maxWidth: '70%', wordBreak: 'break-all' }}>
-				<b>{p_user.firstname}</b>
-				<div>{message}</div>
+				<b>
+					{message.user.firstname}{' '}
+					<span onClick={() => deleteMessage(message)}>
+						<FaTrash />
+					</span>
+				</b>
+				<div>{message.message}</div>
 			</div>
 		</div>
 	);
