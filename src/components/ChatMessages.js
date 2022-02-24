@@ -8,7 +8,7 @@ export default function ChatMessages() {
 	const { getMessages } = useMessages();
 
 	return (
-		<Container className='flex-grow-1 '>
+		<Container className='flex-grow-1 overflow-auto'>
 			<h2>ChatMessages</h2>
 			{getMessages().map((m) => {
 				const isFromUser = JSON.stringify(user) === JSON.stringify(m.user);
